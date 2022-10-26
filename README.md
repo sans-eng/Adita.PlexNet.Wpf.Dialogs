@@ -17,19 +17,20 @@ This library is designed to work with <c>Microsoft.Extensions.DependencyInjectio
 
 2. Register the models to service container
 
+    ```
     Services.AddDialogs(dialogBuilder =>
             {
                 dialogBuilder.RegisterDialog<DialogSample>()
                 .RegisterDialog<DialogWithReturnSample>()
                 .RegisterDialog<DialogWithReturnAndParamSample>();
             });
-    
+    ```
 
 3. Add <c>Adita.PlexNet.Wpf.DialogHost</c> to any object on a window that want to show the dialog.
 
     Example:
 
-	<code>
+	```
 	     <dg:DialogHost.DialogViews>
             <dg:DialogViewCollection>
                 <dg:DialogViewDescriptor>
@@ -49,7 +50,7 @@ This library is designed to work with <c>Microsoft.Extensions.DependencyInjectio
                 </dg:DialogViewDescriptor>
             </dg:DialogViewCollection>
         </dg:DialogHost.DialogViews>
-	</code>
+	```
 
 4. Inject <c>Adita.PlexNet.Core.IDialogService<c> to your view model that want to show the dialog
     and call following methods depend on the type of the dialog model:
