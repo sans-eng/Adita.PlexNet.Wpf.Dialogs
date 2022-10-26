@@ -28,10 +28,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +38,13 @@
     <Reference Include="Adita.PlexNet.Core.Dialogs">
       <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
