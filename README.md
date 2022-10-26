@@ -12,7 +12,7 @@ This library is designed to work with `Microsoft.Extensions.DependencyInjection`
 		<br>Use this if the dialog don't need any parameter and not return value.
 	- `Adita.PlexNet.Wpf.Dialogs.Dialog<TReturn>`
 		<br>Use this if the dialog don't need any parameter but return value.
-	- `Adita.PlexNet.Wpf.Dialogs.IDialog<TReturn, TParam>`
+	- `Adita.PlexNet.Wpf.Dialogs.Dialog<TReturn, TParam>`
 		<br>Use this if the dialog need a parameter and return value.
 
 2. Register the models to service container
