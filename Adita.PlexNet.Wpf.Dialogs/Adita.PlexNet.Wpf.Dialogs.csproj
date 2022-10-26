@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Title>Adita.PlexNet.Wpf.Dialogs</Title>
+    <Version>1.0.0.0</Version>
+    <Authors>Setya Adi Kurnia</Authors>
+    <Company>Adita</Company>
+    <Description>A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of Adita.PlexNet.Wpf.Dialogs </Description>
+    <Copyright>© 2022 Adita</Copyright>
+    <PackageProjectUrl>https://plexdotnet.adita-engineering.com</PackageProjectUrl>
+    <PackageIcon>favicon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/sans-eng/Adita.PlexNet.Wpf.Dialogs</RepositoryUrl>
+    <PackageTags>wpf; dialog; net; net6;</PackageTags>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\favicon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Adita.PlexNet.Core.Dialogs">
+      <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

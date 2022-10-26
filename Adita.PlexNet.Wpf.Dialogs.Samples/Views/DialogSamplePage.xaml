@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="Adita.PlexNet.Wpf.Dialogs.Samples.Views.DialogSamplePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Adita.PlexNet.Wpf.Dialogs.Samples.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:viewModels="clr-namespace:Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModels:DialogSampleViewModel}"
+             xmlns:dg="clr-namespace:Adita.PlexNet.Wpf.Dialogs;assembly=Adita.PlexNet.Wpf.Dialogs">
+    <dg:DialogHost.DialogViews>
+        <dg:DialogViewCollection>
+            <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ViewTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:DialogSample}">
+                        <Border Padding="10">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Data}"/>
+                                <Button Padding="20,5,20,0" Margin="0,10,0,0" HorizontalAlignment="Right"
+                                    Command="{Binding OkCommand}">OK</Button>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </dg:DialogViewDescriptor.ViewTemplate>
+            </dg:DialogViewDescriptor>
+            <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ViewTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:DialogWithReturnSample}">
+                        <Border Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="Write here to return the result"/>
+                                <TextBox HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Data}"
+                                         MinWidth="200"/>
+                                <StackPanel Margin="0,10,0,0"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">
+                                    <Button Padding="20,5,20,0" HorizontalAlignment="Right"
+                                    Command="{Binding SubmitCommand}">Submit</Button>
+                                    <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
+                                    Command="{Binding CancelCommand}">Cancel</Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </dg:DialogViewDescriptor.ViewTemplate>
+            </dg:DialogViewDescriptor>
+            <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ViewTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:DialogWithReturnAndParamSample}">
+                        <Border Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Parameter, StringFormat={}The parameter is: {0}}"/>
+                                <TextBlock Text="Write here to return the result"/>
+                                <TextBox HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Return}"
+                                         MinWidth="200"/>
+                                <StackPanel Margin="0,10,0,0"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">
+                                    <Button Padding="20,5,20,0" HorizontalAlignment="Right"
+                                    Command="{Binding SubmitCommand}">Submit</Button>
+                                    <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
+                                    Command="{Binding CancelCommand}">Cancel</Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </dg:DialogViewDescriptor.ViewTemplate>
+            </dg:DialogViewDescriptor>
+        </dg:DialogViewCollection>
+    </dg:DialogHost.DialogViews>
+    <StackPanel>
+        <Button Command="{Binding ShowDialogCommand}">Show dialog</Button>
+        <Button Margin="0,20,0,0" Command="{Binding ShowDialogWithReturnCommand}">Show dialog with return</Button>
+        <TextBlock Text="{Binding DialogValue1, StringFormat={}The return value of dialog is: {0}}"/>
+        <Button Margin="0,20,0,0" Command="{Binding ShowDialogWithReturnAndParamCommand}">Show dialog with return and parameter</Button>
+        <TextBlock Text="Type parameter here."/>
+        <TextBox Text="{Binding Parameter}"/>
+        <TextBlock Text="{Binding DialogValue2, StringFormat={}The return value of dialog is: {0}}"/>
+    </StackPanel>
+</UserControl>
