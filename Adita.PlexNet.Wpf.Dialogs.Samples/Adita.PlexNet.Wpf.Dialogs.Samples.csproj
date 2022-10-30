@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="favicon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Adita.PlexNet.Wpf.Hosting" Version="1.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
   </ItemGroup>
@@ -21,6 +25,10 @@
     <Reference Include="Adita.PlexNet.Core.Dialogs">
       <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="favicon.png" />
   </ItemGroup>
 
 </Project>

@@ -12,6 +12,12 @@
     <dg:DialogHost.DialogViews>
         <dg:DialogViewCollection>
             <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ContainerStyle>
+                    <Style TargetType="{x:Type Window}">
+                        <Setter Property="Title" Value="Dialog1"/>
+                        <Setter Property="Icon" Value="../favicon.png"/>
+                    </Style>
+                </dg:DialogViewDescriptor.ContainerStyle>
                 <dg:DialogViewDescriptor.ViewTemplate>
                     <DataTemplate DataType="{x:Type viewModels:DialogSample}">
                         <Border Padding="10">
@@ -27,6 +33,12 @@
                 </dg:DialogViewDescriptor.ViewTemplate>
             </dg:DialogViewDescriptor>
             <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ContainerStyle>
+                    <Style TargetType="{x:Type Window}">
+                        <Setter Property="Title" Value="Dialog2"/>
+                        <Setter Property="Icon" Value="../favicon.png"/>
+                    </Style>
+                </dg:DialogViewDescriptor.ContainerStyle>
                 <dg:DialogViewDescriptor.ViewTemplate>
                     <DataTemplate DataType="{x:Type viewModels:DialogWithReturnSample}">
                         <Border Padding="10">
@@ -50,6 +62,12 @@
                 </dg:DialogViewDescriptor.ViewTemplate>
             </dg:DialogViewDescriptor>
             <dg:DialogViewDescriptor>
+                <dg:DialogViewDescriptor.ContainerStyle>
+                    <Style TargetType="{x:Type Window}">
+                        <Setter Property="Title" Value="Dialog3"/>
+                        <Setter Property="Icon" Value="../favicon.png"/>
+                    </Style>
+                </dg:DialogViewDescriptor.ContainerStyle>
                 <dg:DialogViewDescriptor.ViewTemplate>
                     <DataTemplate DataType="{x:Type viewModels:DialogWithReturnAndParamSample}">
                         <Border Padding="10">
