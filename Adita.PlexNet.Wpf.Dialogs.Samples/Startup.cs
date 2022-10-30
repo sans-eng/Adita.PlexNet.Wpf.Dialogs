@@ -1,6 +1,6 @@
 ﻿using Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels;
 using Adita.PlexNet.Wpf.Extensions.DependencyInjection;
-using Adita.Wpf.Hosting;
+using Adita.PlexNet.Wpf.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

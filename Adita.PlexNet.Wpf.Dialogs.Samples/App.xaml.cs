@@ -1,11 +1,6 @@
-﻿using Adita.Wpf.Hosting;
+﻿using Adita.PlexNet.Core.Hosting;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Adita.PlexNet.Wpf.Dialogs.Samples

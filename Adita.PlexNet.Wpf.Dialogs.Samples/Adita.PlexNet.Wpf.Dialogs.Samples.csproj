@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adita.Wpf.Hosting" Version="1.0.0" />
+    <PackageReference Include="Adita.PlexNet.Wpf.Hosting" Version="1.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
   </ItemGroup>
 
