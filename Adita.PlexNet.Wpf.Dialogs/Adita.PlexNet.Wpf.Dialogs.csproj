@@ -9,7 +9,7 @@
     <Version>1.0.0.0</Version>
     <Authors>Setya Adi Kurnia</Authors>
     <Company>Adita</Company>
-    <Description>A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of Adita.PlexNet.Wpf.Dialogs </Description>
+    <Description>A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of Adita.PlexNet.Core.Dialogs </Description>
     <Copyright>© 2022 Adita</Copyright>
     <PackageProjectUrl>https://plexdotnet.adita-engineering.com</PackageProjectUrl>
     <PackageIcon>favicon.png</PackageIcon>
