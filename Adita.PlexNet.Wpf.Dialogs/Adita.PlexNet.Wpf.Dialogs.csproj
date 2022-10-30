@@ -31,13 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Adita.PlexNet.Core.Dialogs" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Adita.PlexNet.Core.Dialogs">
-      <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
