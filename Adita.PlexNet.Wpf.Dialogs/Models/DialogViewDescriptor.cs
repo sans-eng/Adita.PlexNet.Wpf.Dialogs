@@ -36,13 +36,13 @@ namespace Adita.PlexNet.Wpf.Dialogs
         /// Identifies the <see cref="ViewTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ViewTemplateProperty =
-            DependencyProperty.Register(nameof(ViewTemplate), typeof(DataTemplate), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new DataTemplate(), OnViewTemplateChanged));
+            DependencyProperty.Register(nameof(ViewTemplate), typeof(DataTemplate), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new DataTemplate()));
 
         /// <summary>
         /// Identifies the <see cref="ContainerStyle"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DialogStyleProperty =
-            DependencyProperty.Register(nameof(ContainerStyle), typeof(Style), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new Style(typeof(Window)), OnContainerStyleChanged));
+            DependencyProperty.Register(nameof(ContainerStyle), typeof(Style), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new Style(typeof(Window))));
         #endregion Dependency properties
 
         #region Public properties
@@ -82,37 +82,5 @@ namespace Adita.PlexNet.Wpf.Dialogs
             return _attachedObject is Window window ? window : Window.GetWindow(_attachedObject);
         }
         #endregion public methods
-
-        #region Dependency property changed handlers
-        private static void OnViewTemplateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is null)
-            {
-                throw new ArgumentNullException(nameof(dependencyObject));
-            }
-
-            if (args.NewValue is not DataTemplate viewTemplate)
-            {
-                throw new ArgumentException($"The {nameof(ViewTemplate)} is null.");
-            }
-        }
-        private static void OnContainerStyleChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            if (dependencyObject is null)
-            {
-                throw new ArgumentNullException(nameof(dependencyObject));
-            }
-
-            if(args.NewValue is not Style containerStyle)
-            {
-                throw new ArgumentException($"The {nameof(ContainerStyle)} is null.");
-            }
-
-            if(containerStyle.TargetType != typeof(Window))
-            {
-                throw new ArgumentException($"The {nameof(Style.TargetType)} of {nameof(ContainerStyle)} is not {nameof(Window)}");
-            }
-        }
-        #endregion Dependency property changed handlers
     }
 }
