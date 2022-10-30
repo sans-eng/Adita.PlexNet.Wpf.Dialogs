@@ -1,6 +1,6 @@
 # Adita.PlexNet.Wpf.Dialogs
 
-A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of `Adita.PlexNet.Wpf.Dialogs`.
+A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of `Adita.PlexNet.Core.Dialogs`.
 
 This library is designed to work with `Microsoft.Extensions.DependencyInjection`.
 
