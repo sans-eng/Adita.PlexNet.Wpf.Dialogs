@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -12,63 +12,64 @@ namespace Adita.PlexNet.Wpf.Dialogs
     public static class DialogHost
     {
         #region Private fields
-        private static readonly DialogViewCollection DialogViews = new();
+        private static readonly DialogViewCollection _viewDescriptors = new();
         #endregion Private fields
 
         #region Dependency properties
+
         /// <summary>
-        /// Identifies the DialogView attached property.
+        /// Identifies the ViewTemplates attached property.
         /// </summary>
-        public static readonly DependencyProperty DialogViewsProperty =
-              DependencyProperty.RegisterAttached("DialogViews", typeof(IEnumerable<DialogViewDescriptor>), typeof(DialogHost), new FrameworkPropertyMetadata(OnDialogViewsChanged));
+        public static readonly DependencyProperty ViewTemplatesProperty =
+              DependencyProperty.RegisterAttached("ViewTemplates", typeof(ViewTemplateCollection), typeof(DialogHost), new FrameworkPropertyMetadata(new ViewTemplateCollection(), OnViewTemplatesChanged));
         #endregion Dependency properties
 
         #region Dependency property accessors
         /// <summary>
-        /// Gets the value of DialogViews attached property from specified <paramref name="dependencyObject"/>.
+        /// Gets the value of ViewTemplates attached property from specified <paramref name="dependencyObject"/>.
         /// </summary>
         /// <param name="dependencyObject">A <see cref="DependencyObject"/> to retrieve the attached property value from.</param>
-        /// <returns>A <see cref="DialogViewCollection"/> that contains <see cref="DialogViewDescriptor"/> which describes the view of the dialogs.</returns>
+        /// <returns>A <see cref="ViewTemplateCollection"/> for dialogs.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="dependencyObject"/> is <c>null</c>.</exception>
-        public static DialogViewCollection GetDialogViews(DependencyObject dependencyObject)
+        public static ViewTemplateCollection GetViewTemplates(DependencyObject dependencyObject)
         {
             if (dependencyObject is null)
             {
                 throw new ArgumentNullException(nameof(dependencyObject));
             }
 
-            return (DialogViewCollection)dependencyObject.GetValue(DialogViewsProperty);
+            return (ViewTemplateCollection)dependencyObject.GetValue(ViewTemplatesProperty);
         }
         /// <summary>
-        /// Sets the value of DialogViews attached property to specified <paramref name="dependencyObject"/>.
+        /// Sets the value of ViewTemplates attached property to specified <paramref name="dependencyObject"/>.
         /// </summary>
         /// <param name="dependencyObject">A <see cref="DependencyObject"/> to set the attached property value to.</param>
-        /// <param name="dialogViews">A <see cref="DialogViewCollection"/> that contains <see cref="DialogViewDescriptor"/> which describes the view of the dialogs.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="dependencyObject"/> or <paramref name="dialogViews"/> is <c>null</c>.</exception>
-        public static void SetDialogViews(DependencyObject dependencyObject, DialogViewCollection dialogViews)
+        /// <param name="viewTemplates">A <see cref="ViewTemplateCollection"/> for dialogs.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="dependencyObject"/> or <paramref name="viewTemplates"/> is <c>null</c>.</exception>
+        public static void SetViewTemplates(DependencyObject dependencyObject, ViewTemplateCollection viewTemplates)
         {
             if (dependencyObject is null)
             {
                 throw new ArgumentNullException(nameof(dependencyObject));
             }
 
-            if (dialogViews is null)
+            if (viewTemplates is null)
             {
-                throw new ArgumentNullException(nameof(dialogViews));
+                throw new ArgumentNullException(nameof(viewTemplates));
             }
 
-            dependencyObject.SetValue(DialogViewsProperty, dialogViews);
+            dependencyObject.SetValue(ViewTemplatesProperty, viewTemplates);
         }
         #endregion Dependency property accessors
 
         #region internal methods
-        internal static DialogViewDescriptor? GetDialogView<TDialog>()
+        internal static DataTemplate? GetDialogView<TDialog>()
         {
-            foreach (var dialogView in DialogViews)
+            foreach (var descriptor in _viewDescriptors)
             {
-                if ((Type)dialogView.ViewTemplate.DataType == typeof(TDialog))
+                if (descriptor.TargetType == typeof(TDialog) && descriptor.GetOwner().IsActive)
                 {
-                    return dialogView;
+                    return descriptor.ViewTemplate;
                 }
             }
 
@@ -76,25 +77,33 @@ namespace Adita.PlexNet.Wpf.Dialogs
         }
         #endregion internal methods
 
-        #region Dependency property changed event handler
-        private static void OnDialogViewsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        #region Dependency property changed event handlers
+        private static void OnViewTemplatesChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
-            if (dependencyObject is null)
+            if (args.OldValue is ViewTemplateCollection oldTemplates)
             {
-                throw new ArgumentNullException(nameof(dependencyObject));
+                foreach (var oldTemplate in oldTemplates)
+                {
+                    var foundTemplatesDescriptor = _viewDescriptors.Where(o => o.GetAttachedObject() == dependencyObject && o.TargetType == oldTemplate.DataType as Type);
+                    _viewDescriptors.RemoveRange(foundTemplatesDescriptor);
+                }
             }
 
-            if (args.OldValue is IEnumerable<DialogViewDescriptor> oldDialogViews)
+            if (args.NewValue is ViewTemplateCollection newTemplates)
             {
-                DialogViews.RemoveRange(oldDialogViews);
-            }
+                foreach (var newTemplate in newTemplates)
+                {
+                    DialogViewDescriptor descriptor = new(dependencyObject, newTemplate);
 
-            if (args.NewValue is IEnumerable<DialogViewDescriptor> newDialogViews)
-            {
-                IEnumerable<DialogViewDescriptor> dialogViews = newDialogViews.Select(o => { o.SetAttachedObject(dependencyObject); return o; });
-                DialogViews.AddRange(dialogViews);
+                    if (_viewDescriptors.Any(o => o.GetOwner() == descriptor.GetOwner() && o.TargetType == newTemplate.DataType as Type))
+                    {
+                        throw new ArgumentException($"The {nameof(DataTemplate)} with same {nameof(DataTemplate.DataType)} already registered to target {nameof(Window)}.");
+                    }
+
+                    _viewDescriptors.Add(descriptor);
+                }
             }
         }
-        #endregion Dependency property changed event handler
+        #endregion Dependency property changed event handlers
     }
 }

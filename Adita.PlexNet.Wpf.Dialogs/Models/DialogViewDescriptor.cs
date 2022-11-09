@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Adita.PlexNet.Wpf.Dialogs
@@ -12,22 +8,18 @@ namespace Adita.PlexNet.Wpf.Dialogs
     /// </summary>
     public class DialogViewDescriptor : DependencyObject
     {
-        #region Private fields
-        private DependencyObject? _attachedObject;
-        #endregion Private fields
+        private DependencyObject _attachedObject;
 
         #region Constructors
         /// <summary>
-        /// Initialize a new instance of <see cref="DialogViewDescriptor"/>.
+        /// Initialize a new instance of <see cref="DialogViewDescriptor"/> using specified <paramref name="attachedObject"/> and <paramref name="dataTemplate"/>.
         /// </summary>
-        public DialogViewDescriptor() { }
-        /// <summary>
-        /// Initialize a new instance of <see cref="DialogViewDescriptor"/> which attached on specified <paramref name="attachedObject"/>.
-        /// </summary>
-        /// <param name="attachedObject">A <see cref="DependencyObject"/> where the <see cref="DialogViewDescriptor"/> is attached to.</param>
-        public DialogViewDescriptor(Window attachedObject)
+        /// <param name="attachedObject">A <see cref="DependencyObject"/> where the view was attached.</param>
+        /// <param name="dataTemplate">A <see cref="DataTemplate"/> to use for the view.</param>
+        public DialogViewDescriptor(DependencyObject attachedObject, DataTemplate dataTemplate)
         {
             _attachedObject = attachedObject;
+            ViewTemplate = dataTemplate;
         }
         #endregion Constructors
 
@@ -37,15 +29,16 @@ namespace Adita.PlexNet.Wpf.Dialogs
         /// </summary>
         public static readonly DependencyProperty ViewTemplateProperty =
             DependencyProperty.Register(nameof(ViewTemplate), typeof(DataTemplate), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new DataTemplate()));
-
-        /// <summary>
-        /// Identifies the <see cref="ContainerStyle"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty DialogStyleProperty =
-            DependencyProperty.Register(nameof(ContainerStyle), typeof(Style), typeof(DialogViewDescriptor), new FrameworkPropertyMetadata(new Style(typeof(Window))));
         #endregion Dependency properties
 
         #region Public properties
+        /// <summary>
+        /// Gets the target <see cref="Type"/> of current <see cref="DialogViewDescriptor"/>.
+        /// </summary>
+        public Type TargetType
+        {
+            get { return (Type)ViewTemplate.DataType; }
+        }
         /// <summary>
         /// Gets or sets the <see cref="DataTemplate"/> of the dialog view.
         /// </summary>
@@ -54,33 +47,25 @@ namespace Adita.PlexNet.Wpf.Dialogs
             get { return (DataTemplate)GetValue(ViewTemplateProperty); }
             set { SetValue(ViewTemplateProperty, value); }
         }
-        /// <summary>
-        /// Gets or sets the <see cref="Style"/> of the dialog container.
-        /// </summary>
-        public Style ContainerStyle
-        {
-            get { return (Style)GetValue(DialogStyleProperty); }
-            set { SetValue(DialogStyleProperty, value); }
-        }
         #endregion Public properties
 
-        #region public methods
+        #region Public methods
         /// <summary>
-        /// Sets the attached <see cref="DependencyObject"/> of current <see cref="DialogViewDescriptor"/>. 
+        /// Gets the <see cref="DependencyObject"/> that attached to current <see cref="DialogViewDescriptor"/>.
         /// </summary>
-        /// <param name="dependencyObject">The <see cref="DependencyObject"/> where current <see cref="DialogViewDescriptor"/> is attached to.</param>
-        public void SetAttachedObject(DependencyObject dependencyObject)
+        /// <returns>The attached <see cref="DependencyObject"/>.</returns>
+        public DependencyObject GetAttachedObject()
         {
-            _attachedObject = dependencyObject;
+            return _attachedObject;
         }
         /// <summary>
-        /// Gets the <see cref="Window"/> that owns the dialog.
+        /// Gets the <see cref="Window"/> that owns current <see cref="DialogViewDescriptor"/>.
         /// </summary>
-        /// <returns>The <see cref="Window"/> that owns the dialog.</returns>
+        /// <returns>The <see cref="Window"/> that owns current <see cref="DialogViewDescriptor"/>.</returns>
         public Window GetOwner()
         {
-            return _attachedObject is Window window ? window : Window.GetWindow(_attachedObject);
+            return Window.GetWindow(_attachedObject);
         }
-        #endregion public methods
+        #endregion Public methods
     }
 }

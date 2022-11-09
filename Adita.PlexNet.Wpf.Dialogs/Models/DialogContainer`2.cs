@@ -1,6 +1,7 @@
 ﻿using Adita.PlexNet.Core.Dialogs;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Adita.PlexNet.Wpf.Dialogs
 {
@@ -12,19 +13,17 @@ namespace Adita.PlexNet.Wpf.Dialogs
     public sealed class DialogContainer<TReturn, TParam> : DialogContainerBase, IDialogContainer<TReturn, TParam>
     {
         #region Private fields
-        private IDialog<TReturn, TParam> _content;
+        private IDialog<TReturn, TParam>? _contentContext;
+        private TParam? _parameter;
         #endregion Private fields
 
         #region Constructors
         /// <summary>
-        /// Initialize a new instance of <see cref="DialogContainer"/> using specified <paramref name="content"/>.
+        /// Initialize a new instance of <see cref="DialogContainer{TReturn, TParam}"/>.
         /// </summary>
-        /// <param name="content">An <see cref="IDialog{TReturn}"/> for the content.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="content"/> is <c>null</c>.</exception>
-        public DialogContainer(IDialog<TReturn, TParam> content)
+        public DialogContainer()
         {
-            _content = content ?? throw new ArgumentNullException(nameof(content));
-            content.RequestClosing += OnContentRequestClosing;
+            Loaded += OnLoaded;
         }
         #endregion Constructors
 
@@ -35,6 +34,7 @@ namespace Adita.PlexNet.Wpf.Dialogs
         /// <param name="param">A parameter to be used for initializing the dialog.</param>
         /// <returns>A <see cref="DialogResult{T}" /> as a result of the dialog.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="param"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">Context has not initialized.</exception>
         public DialogResult<TReturn> ShowDialog(TParam param)
         {
             if (param == null)
@@ -42,37 +42,73 @@ namespace Adita.PlexNet.Wpf.Dialogs
                 throw new ArgumentNullException(nameof(param));
             }
 
-            _content.Initialize(param);
+            if (_contentContext == null)
+                throw new InvalidOperationException($"{nameof(_contentContext)} not set.");
+
+            _parameter = param;
+            _contentContext.Initialize(param);
+            Title = _contentContext.Title;
 
             ShowDialog();
-            return _content.DialogResult;
+            return _contentContext.DialogResult;
+        }
+        /// <summary>
+        /// Sets the host of type <typeparamref name="THost" /> to the dialog.
+        /// </summary>
+        /// <typeparam name="THost">The type used for the dialog.</typeparam>
+        /// <param name="host">The host to set to.</param>
+        public void SetHost<THost>(THost? host) where THost : class
+        {
+            Owner = host as Window;
         }
 
         /// <summary>
-        /// Opens a dialog using specified <paramref name="param" /> and return the result after dialog is closed asynchronously.
+        /// Sets the content of the dialog using specified <paramref name="content" /> and its <paramref name="contentView" />.
         /// </summary>
-        /// <param name="param">A parameter to be used for initializing the dialog.</param>
-        /// <returns>A <see cref="Task" /> that represents an asynchronous operation which contans a <see cref="DialogResult{T}" /> as a result of the dialog.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="param"/> is <c>null</c>.</exception>
-        public async Task<DialogResult<TReturn>> ShowDialogAsync(TParam param)
+        /// <typeparam name="TContent">The type used for the content.</typeparam>
+        /// <typeparam name="TContentView">The type used for the view.</typeparam>
+        /// <param name="content">The content to set.</param>
+        /// <param name="contentView">The content view to set.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="content"/> or <paramref name="contentView"/> is <c>null</c>.</exception>
+        public void SetContent<TContent, TContentView>(TContent content, TContentView contentView)
+            where TContent : class, IDialog<TReturn, TParam>
+            where TContentView : class
         {
-            if (param == null)
+            if (contentView is null)
             {
-                throw new ArgumentNullException(nameof(param));
+                throw new ArgumentNullException(nameof(contentView));
             }
 
-            await _content.InitializeAsync(param);
+            _contentContext = content ?? throw new ArgumentNullException(nameof(content));
+            content.RequestClosing += OnContentRequestClosing;
 
-            Dispatcher.Invoke(() => ShowDialog());
-            return _content.DialogResult;
+            if (contentView is DataTemplate dataTemplate)
+            {
+                Content = content;
+                ContentTemplate = dataTemplate;
+            }
+            else
+            {
+                Content = contentView;
+            }
         }
         #endregion Public methods
 
         #region Event handlers
-        private void OnContentRequestClosing(IDialog<TReturn> sender, DialogRequestClosingEventArgs<TReturn> e)
+        private void OnContentRequestClosing(object? sender, DialogRequestClosingEventArgs<TReturn> e)
         {
-            sender.RequestClosing -= OnContentRequestClosing;
+            if (sender is IDialog<TReturn, TParam> dialog)
+            {
+                dialog.RequestClosing -= OnContentRequestClosing;
+            }
             CloseDialog(e.DialogResult.Action);
+        }
+        private async void OnLoaded(object sender, RoutedEventArgs e)
+        {
+           if(_parameter != null && _contentContext != null)
+            {
+               await _contentContext.InitializeAsync(_parameter);
+            }
         }
         #endregion Event handlers
     }

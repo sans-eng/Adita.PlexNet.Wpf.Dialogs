@@ -1,5 +1,7 @@
 ﻿using Adita.PlexNet.Core.Dialogs;
 using System;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Adita.PlexNet.Wpf.Dialogs
 {
@@ -10,38 +12,74 @@ namespace Adita.PlexNet.Wpf.Dialogs
     public sealed class DialogContainer<TReturn> : DialogContainerBase, IDialogContainer<TReturn>
     {
         #region Private fields
-        private IDialog<TReturn> _content;
+        private IDialog<TReturn>? _contentContext;
         #endregion Private fields
-
-        #region Constructors
-        /// <summary>
-        /// Initialize a new instance of <see cref="DialogContainer"/> using specified <paramref name="content"/>.
-        /// </summary>
-        /// <param name="content">An <see cref="IDialog{TReturn}"/> for the content.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="content"/> is <c>null</c>.</exception>
-        public DialogContainer(IDialog<TReturn> content)
-        {
-            _content = content ?? throw new ArgumentNullException(nameof(content));
-            content.RequestClosing += OnContentRequestClosing;
-        }
-        #endregion Constructors
 
         #region Public methods
         /// <summary>
         /// Opens a dialog and return the result after dialog is closed.
         /// </summary>
         /// <returns>A <see cref="DialogResult{T}" /> as a result of the dialog.</returns>
+        /// <exception cref="InvalidOperationException">Context has not initialized.</exception>
         public new DialogResult<TReturn> ShowDialog()
         {
+            Title = _contentContext?.Title;
+
             base.ShowDialog();
-            return _content.DialogResult;
+            return _contentContext != null
+                ? _contentContext.DialogResult
+                : throw new InvalidOperationException($"{nameof(_contentContext)} not set.");
+        }
+
+        /// <summary>
+        /// Sets the host of type <typeparamref name="THost" /> to the dialog.
+        /// </summary>
+        /// <typeparam name="THost">The type used for the dialog.</typeparam>
+        /// <param name="host">The host to set to.</param>
+        public void SetHost<THost>(THost? host) where THost : class
+        {
+            Owner = host as Window;
+        }
+
+        /// <summary>
+        /// Sets the content of the dialog using specified <paramref name="content" /> and its <paramref name="contentView" />.
+        /// </summary>
+        /// <typeparam name="TContent">The type used for the content.</typeparam>
+        /// <typeparam name="TContentView">The type used for the view.</typeparam>
+        /// <param name="content">The content to set.</param>
+        /// <param name="contentView">The content view to set.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="content"/> or <paramref name="contentView"/> is <c>null</c>.</exception>
+        public void SetContent<TContent, TContentView>(TContent content, TContentView contentView)
+            where TContent : class, IDialog<TReturn>
+            where TContentView : class
+        {
+            if (contentView is null)
+            {
+                throw new ArgumentNullException(nameof(contentView));
+            }
+
+            _contentContext = content ?? throw new ArgumentNullException(nameof(content));
+            content.RequestClosing += OnContentRequestClosing;
+
+            if (contentView is DataTemplate dataTemplate)
+            {
+                Content = content;
+                ContentTemplate = dataTemplate;
+            }
+            else
+            {
+                Content = contentView;
+            }
         }
         #endregion Public methods
 
         #region Event handlers
-        private void OnContentRequestClosing(IDialog<TReturn> sender, DialogRequestClosingEventArgs<TReturn> e)
+        private void OnContentRequestClosing(object? sender, DialogRequestClosingEventArgs<TReturn> e)
         {
-            sender.RequestClosing -= OnContentRequestClosing;
+            if (sender is IDialog<TReturn> dialog)
+            {
+                dialog.RequestClosing -= OnContentRequestClosing;
+            }
             CloseDialog(e.DialogResult.Action);
         }
         #endregion Event handlers
