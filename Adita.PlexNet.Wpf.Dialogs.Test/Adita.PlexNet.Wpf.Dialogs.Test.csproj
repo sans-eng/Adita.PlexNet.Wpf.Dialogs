@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Reference Include="Adita.PlexNet.Core.Dialogs">
-      <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
+      <HintPath>..\..\CoreDialog\Adita.PlexNet.Core.Dialogs\bin\Debug\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
     </Reference>
   </ItemGroup>
 
