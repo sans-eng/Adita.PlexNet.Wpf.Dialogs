@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Adita.PlexNet.Wpf.Dialogs</Title>
-    <Version>1.0.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Authors>Setya Adi Kurnia</Authors>
     <Company>Adita</Company>
     <Description>A WPF dialog for PlexNet framework that targeting .NET 6 which is the implementation of Adita.PlexNet.Core.Dialogs </Description>
