@@ -16,7 +16,9 @@ namespace Adita.PlexNet.Wpf.Dialogs.Samples
             {
                 dialogBuilder.RegisterDialog<DialogSample>()
                 .RegisterDialog<DialogWithReturnSample>()
-                .RegisterDialog<DialogWithReturnAndParamSample>();
+                .RegisterDialog<DialogWithReturnAndParamSample>()
+                .RegisterDialog<ParamOnlyDialogSample>()
+                .RegisterDialog<AsyncParamOnlyDialogSample>();
             })
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<DialogSampleViewModel>();

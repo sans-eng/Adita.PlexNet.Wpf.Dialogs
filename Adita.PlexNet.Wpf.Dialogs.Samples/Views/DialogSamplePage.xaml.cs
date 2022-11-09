@@ -1,5 +1,6 @@
 ﻿using Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace Adita.PlexNet.Wpf.Dialogs.Samples.Views
@@ -12,7 +13,10 @@ namespace Adita.PlexNet.Wpf.Dialogs.Samples.Views
         public DialogSamplePage()
         {
             InitializeComponent();
-            DataContext = App.Current.ServiceProvider.GetRequiredService<DialogSampleViewModel>();
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                DataContext = App.Current.ServiceProvider.GetRequiredService<DialogSampleViewModel>();
+            }
         }
     }
 }

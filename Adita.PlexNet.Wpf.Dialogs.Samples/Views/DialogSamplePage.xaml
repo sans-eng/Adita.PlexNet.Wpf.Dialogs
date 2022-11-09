@@ -9,95 +9,83 @@
              xmlns:viewModels="clr-namespace:Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewModels:DialogSampleViewModel}"
              xmlns:dg="clr-namespace:Adita.PlexNet.Wpf.Dialogs;assembly=Adita.PlexNet.Wpf.Dialogs">
-    <dg:DialogHost.DialogViews>
-        <dg:DialogViewCollection>
-            <dg:DialogViewDescriptor>
-                <dg:DialogViewDescriptor.ContainerStyle>
-                    <Style TargetType="{x:Type Window}">
-                        <Setter Property="Title" Value="Dialog1"/>
-                        <Setter Property="Icon" Value="../favicon.png"/>
-                    </Style>
-                </dg:DialogViewDescriptor.ContainerStyle>
-                <dg:DialogViewDescriptor.ViewTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:DialogSample}">
-                        <Border Padding="10">
-                            <StackPanel>
-                                <TextBlock HorizontalAlignment="Center"
+    <dg:DialogHost.ViewTemplates>
+        <dg:ViewTemplateCollection>
+            <DataTemplate DataType="{x:Type viewModels:DialogSample}">
+                <Border Padding="10">
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding Data}"/>
-                                <Button Padding="20,5,20,0" Margin="0,10,0,0" HorizontalAlignment="Right"
+                        <Button Padding="20,5,20,0" Margin="0,10,0,0" HorizontalAlignment="Right"
                                     Command="{Binding OkCommand}">OK</Button>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </dg:DialogViewDescriptor.ViewTemplate>
-            </dg:DialogViewDescriptor>
-            <dg:DialogViewDescriptor>
-                <dg:DialogViewDescriptor.ContainerStyle>
-                    <Style TargetType="{x:Type Window}">
-                        <Setter Property="Title" Value="Dialog2"/>
-                        <Setter Property="Icon" Value="../favicon.png"/>
-                    </Style>
-                </dg:DialogViewDescriptor.ContainerStyle>
-                <dg:DialogViewDescriptor.ViewTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:DialogWithReturnSample}">
-                        <Border Padding="10">
-                            <StackPanel>
-                                <TextBlock Text="Write here to return the result"/>
-                                <TextBox HorizontalAlignment="Center"
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:DialogWithReturnSample}">
+                <Border Padding="10">
+                    <StackPanel>
+                        <TextBlock Foreground="Red" Text="Write here to return the result"/>
+                        <TextBox HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding Data}"
                                          MinWidth="200"/>
-                                <StackPanel Margin="0,10,0,0"
+                        <StackPanel Margin="0,10,0,0"
                                             HorizontalAlignment="Right"
                                             Orientation="Horizontal">
-                                    <Button Padding="20,5,20,0" HorizontalAlignment="Right"
+                            <Button Padding="20,5,20,0" HorizontalAlignment="Right"
                                     Command="{Binding SubmitCommand}">Submit</Button>
-                                    <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
+                            <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
                                     Command="{Binding CancelCommand}">Cancel</Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </dg:DialogViewDescriptor.ViewTemplate>
-            </dg:DialogViewDescriptor>
-            <dg:DialogViewDescriptor>
-                <dg:DialogViewDescriptor.ContainerStyle>
-                    <Style TargetType="{x:Type Window}">
-                        <Setter Property="Title" Value="Dialog3"/>
-                        <Setter Property="Icon" Value="../favicon.png"/>
-                    </Style>
-                </dg:DialogViewDescriptor.ContainerStyle>
-                <dg:DialogViewDescriptor.ViewTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:DialogWithReturnAndParamSample}">
-                        <Border Padding="10">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Parameter, StringFormat={}The parameter is: {0}}"/>
-                                <TextBlock Text="Write here to return the result"/>
-                                <TextBox HorizontalAlignment="Center"
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:DialogWithReturnAndParamSample}">
+                <Border Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Parameter, StringFormat={}The parameter is: {0}}"/>
+                        <TextBlock Text="Write here to return the result"/>
+                        <TextBox HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding Return}"
                                          MinWidth="200"/>
-                                <StackPanel Margin="0,10,0,0"
+                        <StackPanel Margin="0,10,0,0"
                                             HorizontalAlignment="Right"
                                             Orientation="Horizontal">
-                                    <Button Padding="20,5,20,0" HorizontalAlignment="Right"
+                            <Button Padding="20,5,20,0" HorizontalAlignment="Right"
                                     Command="{Binding SubmitCommand}">Submit</Button>
-                                    <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
+                            <Button Margin="10,0,0,0" Padding="20,5,20,0" HorizontalAlignment="Right"
                                     Command="{Binding CancelCommand}">Cancel</Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </dg:DialogViewDescriptor.ViewTemplate>
-            </dg:DialogViewDescriptor>
-        </dg:DialogViewCollection>
-    </dg:DialogHost.DialogViews>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ParamOnlyDialogSample}">
+                <Border Padding="10">
+                    <StackPanel>
+                        <TextBlock Foreground="Red" Text="{Binding Param, StringFormat={}The parameter is: {0}}"/>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:AsyncParamOnlyDialogSample}">
+                <Border Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="The parameter will shown asynchronously within 3 seconds."/>
+                        <TextBlock Text="{Binding Param, StringFormat={}The parameter is: {0}}"/>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </dg:ViewTemplateCollection>
+    </dg:DialogHost.ViewTemplates>
     <StackPanel>
-        <Button Command="{Binding ShowDialogCommand}">Show dialog</Button>
+        <Button Command="{Binding ShowMessageCommand}">Show Message</Button>
+        <Button Margin="0,20,0,0" Command="{Binding ShowDialogCommand}">Show dialog</Button>
         <Button Margin="0,20,0,0" Command="{Binding ShowDialogWithReturnCommand}">Show dialog with return</Button>
         <TextBlock Text="{Binding DialogValue1, StringFormat={}The return value of dialog is: {0}}"/>
         <Button Margin="0,20,0,0" Command="{Binding ShowDialogWithReturnAndParamCommand}">Show dialog with return and parameter</Button>
+        <Button Margin="0,20,0,0" Command="{Binding ShowParamOnlyCommand}">Show parameter only dialog</Button>
+        <Button Margin="0,20,0,0" Command="{Binding ShowParamOnlyAsynchronousCommand}">Show parameter only dialog async</Button>
         <TextBlock Text="Type parameter here."/>
         <TextBox Text="{Binding Parameter}"/>
         <TextBlock Text="{Binding DialogValue2, StringFormat={}The return value of dialog is: {0}}"/>

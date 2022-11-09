@@ -1,9 +1,143 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Adita.PlexNet.Wpf.Dialogs"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:ui="clr-namespace:Adita.PlexNet.Wpf.Dialogs">
+                    xmlns:md="clr-namespace:Adita.PlexNet.Wpf.Media;assembly=Adita.PlexNet.Wpf.Media">
 
-    <Style x:Key="DefaultDialogContainerStyle"
-           TargetType="{x:Type Window}">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Adita.PlexNet.Wpf.Converters;component/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:DialogContainerBase}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DialogContainerBase}">
+                    <Border Background="White">
+                        <ContentPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:MessageView}">
+        <Setter Property="MaxWidth" Value="400"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MessageView}">
+                    <Border>
+                        <StackPanel Margin="0,10,0,0" 
+                                    HorizontalAlignment="Center">
+                            <!--Header and content-->
+                            <Image x:Name="PART_InfoIcon" 
+                                   Width="50"
+                                   Height="50"
+                                   Source="{md:MaterialIconImageSource IconName=Info, Brush=Blue, Kind=Round}"/>
+                            <Image x:Name="PART_QuestionIcon"
+                                   Width="50"
+                                   Height="50"
+                                   Source="{md:MaterialIconImageSource IconName=Help, Brush=Blue, Kind=Round}"/>
+                            <Image x:Name="PART_WarningIcon" 
+                                   Width="50"
+                                   Height="50"
+                                   Source="{md:MaterialIconImageSource IconName=Warning, Brush=#f0d526, Kind=Round}"/>
+                            <Image x:Name="PART_ErrorIcon" 
+                                   Width="50"
+                                   Height="50"
+                                   Source="{md:MaterialIconImageSource IconName=Error, Brush=Red, Kind=Round}"/>
+                            <TextBlock Grid.Column="1" 
+                                       Margin="10"
+                                           Text="{TemplateBinding Header}"
+                                           TextWrapping="Wrap"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            <TextBlock Margin="10,0,10,20"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{TemplateBinding Content}"
+                                           FontSize="14"
+                                           TextWrapping="Wrap"                                       
+                                           TextAlignment="Center"/>
+                            <!--Buttons and details-->
+                            <Border Grid.Row="1"
+                                    Padding="10"
+                                    Background="#f7f7f7"
+                                    BorderThickness="0,0,0,1"
+                                    BorderBrush="#dbdbdb">
+                                <Grid>
+                                    <!--Buttons-->
+                                    <StackPanel
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                                        <Button MinWidth="50" 
+                                                Padding="5"
+                                                Margin="5,0,0,0" 
+                                                VerticalAlignment="Top" 
+                                                x:Name="PART_Yes">Yes</Button>
+                                        <Button MinWidth="50"
+                                                Padding="5"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Top"
+                                                x:Name="PART_No">No</Button>
+                                        <Button MinWidth="50"
+                                                Padding="5"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Top"
+                                                x:Name="PART_Ok">OK</Button>
+                                        <Button MinWidth="50"
+                                                Padding="5"
+                                                Margin="5,0,0,0" 
+                                                VerticalAlignment="Top"
+                                                x:Name="PART_Cancel">Cancel</Button>
+                                        <Button MinWidth="50"
+                                                Padding="5"
+                                                Margin="5,0,0,0" 
+                                                VerticalAlignment="Top"
+                                                x:Name="PART_Abort">Abort</Button>
+                                        <Button MinWidth="50"
+                                                Padding="5"
+                                                Margin="5,0,0,0" 
+                                                VerticalAlignment="Top" 
+                                                x:Name="PART_Ignore">Ignore</Button>
+                                    </StackPanel>
+                                    <!--Details-->
+                                    <Expander x:Name="expander_details" Grid.Row="1"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Header="Details">
+                                        <TextBlock Margin="0,10"
+                                                   x:Name="details"
+                                                   FontSize="12"
+                                                   Text="{TemplateBinding Details}"
+                                                   TextWrapping="Wrap"/>
+                                    </Expander>
+                                </Grid>
+                            </Border>
+                            <!--Footer-->
+                            <Border Grid.Row="2"
+                                    Padding="10"
+                                    Background="#f7f7f7">
+                                <TextBlock Text="{TemplateBinding Footer}"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Details" Value="{x:Null}">
+                            <Setter TargetName="expander_details" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="Details" Value="{x:Static sys:String.Empty}">
+                            <Setter TargetName="expander_details" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

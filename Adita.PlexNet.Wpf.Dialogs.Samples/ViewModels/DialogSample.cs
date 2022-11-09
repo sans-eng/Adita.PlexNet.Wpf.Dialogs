@@ -10,6 +10,11 @@ namespace Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels
         [ObservableProperty]
         private string _data = "This is a dialog with no return and no parameter.";
 
+        public DialogSample()
+        {
+            Title = nameof(DialogSample);
+        }
+
         [RelayCommand]
         private void OnOk()
         {

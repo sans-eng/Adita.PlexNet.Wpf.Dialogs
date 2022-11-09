@@ -13,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Adita.PlexNet.Wpf.Converters" Version="1.1.0" />
     <PackageReference Include="Adita.PlexNet.Wpf.Hosting" Version="1.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +25,7 @@
 
   <ItemGroup>
     <Reference Include="Adita.PlexNet.Core.Dialogs">
-      <HintPath>..\..\Adita.PlexNet.Core.Dialogs\Adita.PlexNet.Core.Dialogs\bin\Release\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
+      <HintPath>..\..\CoreDialog\Adita.PlexNet.Core.Dialogs\bin\Debug\net6.0\Adita.PlexNet.Core.Dialogs.dll</HintPath>
     </Reference>
   </ItemGroup>
 

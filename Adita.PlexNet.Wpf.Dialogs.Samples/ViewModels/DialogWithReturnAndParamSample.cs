@@ -12,6 +12,11 @@ namespace Adita.PlexNet.Wpf.Dialogs.Samples.ViewModels
         [ObservableProperty]
         private string _return = string.Empty;
 
+        public DialogWithReturnAndParamSample()
+        {
+            Title = nameof(DialogWithReturnAndParamSample);
+        }
+
         [RelayCommand]
         private void OnSubmit()
         {
