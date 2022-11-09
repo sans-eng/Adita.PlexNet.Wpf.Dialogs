@@ -1,6 +1,5 @@
 ﻿using Adita.PlexNet.Core.Dialogs;
 using Adita.PlexNet.Wpf.Dialogs;
-using Adita.PlexNet.Wpf.Dialogs.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
