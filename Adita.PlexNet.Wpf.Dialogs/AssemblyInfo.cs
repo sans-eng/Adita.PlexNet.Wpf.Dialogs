@@ -1,4 +1,8 @@
 using System.Windows;
+using System.Windows.Markup;
+
+[assembly: XmlnsPrefix("https://plexdotnet.adita-engineering.com", "plex")]
+[assembly: XmlnsDefinition("https://plexdotnet.adita-engineering.com", "Adita.PlexNet.Wpf.Dialogs")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
