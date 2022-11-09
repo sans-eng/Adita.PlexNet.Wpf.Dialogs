@@ -1,12 +1,6 @@
 ﻿using Adita.PlexNet.Core.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Adita.PlexNet.Wpf.Dialogs.Services
+namespace Adita.PlexNet.Wpf.Dialogs
 {
     /// <summary>
     /// Represents a dialog view provider.
@@ -22,13 +16,13 @@ namespace Adita.PlexNet.Wpf.Dialogs.Services
         /// <returns>A <typeparamref name="TView" /> as dialog view.</returns>
         public TView? GetView<TView, TDialog>() where TView : class
         {
-            if(typeof(TView) == typeof(MessageView))
+            if (typeof(TView) == typeof(MessageView))
             {
                 var view = new MessageView();
                 return view as TView;
             }
 
-           return DialogHost.GetDialogView<TDialog>() as TView;
+            return DialogHost.GetDialogView<TDialog>() as TView;
         }
         #endregion Public methods
     }
